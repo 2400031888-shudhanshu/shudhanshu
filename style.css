@@ -1,0 +1,13 @@
+body {
+    background-color: greenyellow
+    font-family: Arial, sans-serif;
+    color: goldenrod;
+}
+p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+h1 {
+    color: #15a42f;
+    text-align: center;
+}
