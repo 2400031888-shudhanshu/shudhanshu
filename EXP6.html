@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather App</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    input, button { padding: 10px; margin: 5px; }
+    #weather { margin-top: 20px; font-size: 18px; }
+    .error { color: red; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>🌤️ Weather App</h1>
+  <input type="text" id="cityInput" placeholder="Enter city name">
+  <button id="getWeather">Get Weather</button>
+
+  <div id="weather"></div>
+  <div class="error" id="error"></div>
+
+  <script>
+    const apiKey = "YOUR_API_KEY"; // Replace with your OpenWeatherMap API key
+    const cityInput = document.getElementById("cityInput");
+    const weatherDiv = document.getElementById("weather");
+    const errorDiv = document.getElementById("error");
+    const button = document.getElementById("getWeather");
+
+    // Fetch weather data
+    async function fetchWeather(city) {
+      try {
+        errorDiv.textContent = "";
+        weatherDiv.textContent = "Loading...";
+
+        const response = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+        );
+
+        if (!response.ok) {
+          throw new Error("City not found");
+        }
+
+        const data = await response.json();
+        displayWeather(data);
+
+        // Save last searched city in localStorage
+        localStorage.setItem("lastCity", city);
+      } catch (error) {
+        weatherDiv.textContent = "";
+        errorDiv.textContent = error.message;
+      }
+    }
+
+    // Display weather data
+    function displayWeather(data) {
+      const { name } = data;
+      const { temp } = data.main;
+      const { description } = data.weather[0];
+
+      weatherDiv.innerHTML = `
+        <h2>${name}</h2>
+        <p>🌡️ Temperature: ${temp} °C</p>
+        <p>🌥️ Condition: ${description}</p>
+      `;
+    }
+
+    // Button click event
+    button.addEventListener("click", () => {
+      const city = cityInput.value.trim();
+      if (city) {
+        fetchWeather(city);
+      } else {
+        errorDiv.textContent = "Please enter a city name!";
+      }
+    });
+
+    // On page load, check localStorage
+    window.addEventListener("load", () => {
+      const lastCity = localStorage.getItem("lastCity");
+      if (lastCity) {
+        fetchWeather(lastCity);
+      }
+    });
+  </script>
+</body>
+</html>
