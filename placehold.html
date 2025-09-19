@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Enhancement Request Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2f3;
+            padding: 2em;
+        }
+
+        form {
+            max-width: 500px;
+            margin: auto;
+            background: #fff;
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1em;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 1em;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.7em;
+            margin-top: 0.3em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        button {
+            margin-top: 1.5em;
+            padding: 0.8em;
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .valid {
+            border-color: green;
+        }
+
+        .invalid {
+            border-color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <form action="/submit" method="post" novalidate>
+        <h2>Enhancement Request</h2>
+
+        <label for="name">Your Name <span aria-hidden="true">*</span></label>
+        <input type="text" id="name" name="name" required minlength="3" aria-required="true">
+
+        <label for="email">Email Address <span aria-hidden="true">*</span></label>
+        <input type="email" id="email" name="email" required aria-required="true">
+
+        <label for="category">Enhancement Category</label>
+        <select id="category" name="category">
+            <option value="ui">User Interface</option>
+            <option value="performance">Performance</option>
+            <option value="features">New Features</option>
+            <option value="other">Other</option>
+        </select>
+         
+        <label for="details">Describe Your Suggestion</label>
+        <textarea id="details" name="details" rows="5" placeholder="Explain your idea or feedback..."></textarea>
+
+        <button type="submit">Submit Request</button>
+    </form>
+
+    <script>
+        // Real-time validation feedback
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+
+        nameInput.addEventListener("input", () => {
+            nameInput.className = nameInput.value.length >= 3 ? "valid" : "invalid";
+        });
+
+        emailInput.addEventListener("input", () => {
+            const pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            emailInput.className = pattern.test(emailInput.value) ? "valid" : "invalid";
+        });
+    </script>
+
+</body>
+</html>
